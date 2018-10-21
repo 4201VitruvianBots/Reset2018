@@ -7,6 +7,17 @@
 
 package frc.robot;
 
+import frc.robot.commands.*;
+import frc.vitruvianlib.*;
+
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +50,105 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  public Joystick leftJoystick, rightJoystick, xBoxController, testController;
+  public Button[] leftButtons = new Button[7];
+  public Button[] rightButtons = new Button[7];
+  public Button[] xBoxButtons = new Button[10];
+  public Button xBoxLeftTrigger, xBoxRightTrigger;
+  
+  public OI(){
+	leftJoystick = new Joystick(RobotMap.leftJoystick);
+	rightJoystick = new Joystick(RobotMap.rightJoystick);
+	xBoxController = new Joystick(RobotMap.xBoxController);
+	
+    initializeButtons();	
+  }
+
+  /**
+   * Initializes the buttons on the joysticks/controllers. This is in its own
+   * function in the event we want to have different driver button mappings
+   * between drivers, controls testing, etc.
+   */
+  public void initializeButtons() {
+	leftButtons = null;
+	rightButtons = null;
+	xBoxButtons = null;
+	leftButtons = new Button[7];
+	rightButtons = new Button[7];
+	xBoxButtons = new Button[10];
+		
+	for(int i = 0; i < leftButtons.length; i++) {
+		leftButtons[i] = null;
+		leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
+	}
+	for(int i = 0; i < rightButtons.length; i++) {
+		rightButtons[i] = null;
+		rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
+	}
+	for(int i = 0; i < xBoxButtons.length; i++) {
+		xBoxButtons[i] = null;
+		xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
+	}
+	xBoxLeftTrigger = new XBoxTrigger(xBoxController, RobotMap.leftTrigger);
+	xBoxRightTrigger = new XBoxTrigger(xBoxController, RobotMap.rightTrigger);
+  }
+  
+  public double getLeftY(){
+	return -leftJoystick.getY();
+  }
+  
+  public double getLeftX(){
+	return leftJoystick.getX();
+  }
+
+  public double getRightY(){
+	return -rightJoystick.getY();
+	}
+
+	public double getRightX(){
+		return rightJoystick.getX();
+	}
+
+  public void enableXBoxLeftRumble() {
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0.8);
+	}
+	
+	public void disableXBoxLeftRumble() {
+		xBoxController.setRumble(RumbleType.kLeftRumble, 0);
+	}
+	
+	public void enableXBoxRightRumble() {
+		xBoxController.setRumble(RumbleType.kRightRumble, 0.8);
+	}
+	
+	public void disableXBoxRightRumble() {
+		xBoxController.setRumble(RumbleType.kRightRumble, 0);
+  }
+  
+  public void enableXBoxLeftRumbleTimed() {
+	Thread t = new Thread(() -> {
+		Timer stopwatch = new Timer();
+		enableXBoxLeftRumble();
+		stopwatch.start();
+		while(stopwatch.get() < 0.05){
+			
+		}
+		disableXBoxLeftRumble();
+	});
+	t.start();
+	}
+	
+	public void enableXBoxRightRumbleTimed(){
+		Thread t = new Thread(() -> {
+			Timer stopwatch = new Timer();
+			enableXBoxRightRumble();
+			stopwatch.start();
+			while(stopwatch.get() < 0.05){
+				
+			}
+			disableXBoxRightRumble();
+		});
+		t.start();
+	}
 }

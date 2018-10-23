@@ -9,22 +9,22 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elevator extends Subsystem {
 	public Elevator(){
-        super("Elevator");
-        
+		super("Elevator");
+		
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
 	
 
 	public void resetSensors() {
-        
+		
 	}
 	
 	public void updateSmartDashboard(){
-        
+		
 	}
 	
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
-        
+		
 	}
 }

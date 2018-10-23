@@ -19,7 +19,6 @@ public class XBoxTrigger extends Button {
 	
 	@Override
 	public boolean get() {
-		// TODO Auto-generated method stub
 		return joystick.getRawAxis(axis) > 0.15;
 	}
 

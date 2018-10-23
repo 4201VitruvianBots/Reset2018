@@ -27,16 +27,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveTrain extends Subsystem {
 	PIDController leftMotorPIDController, rightMotorPIDController, driveGyroPIDController;
-	double kP = 0.03;        		// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
-    double kI = 0;           		// Start with I = P / 100
-    double kD = 0;           		// Start with D = P * 10
-    double period = 0.01;
-    
+	double kP = 0.03;				// Start with P = 10% of your max output, double until you get a quarter-decay oscillation
+	double kI = 0;		   			// Start with I = P / 100
+	double kD = 0;		   			// Start with D = P * 10
+	double period = 0.01;
+	
 	public WPI_TalonSRX[] driveMotors = {
-		new WPI_TalonSRX(RobotMap.driveTrainLeftFront),
-		new WPI_TalonSRX(RobotMap.driveTrainLeftRear),
-		new WPI_TalonSRX(RobotMap.driveTrainRightFront),
-		new WPI_TalonSRX(RobotMap.driveTrainRightRear)
+		new WPI_TalonSRX(RobotMap.driveTrainLeftMaster),
+		new WPI_TalonSRX(RobotMap.driveTrainLeftSlave),
+		new WPI_TalonSRX(RobotMap.driveTrainRightMaster),
+		new WPI_TalonSRX(RobotMap.driveTrainRightSlave)
 	};
 	
 	DifferentialDrive robotDrive = new DifferentialDrive(driveMotors[0], driveMotors[2]);
@@ -75,23 +75,23 @@ public class DriveTrain extends Subsystem {
 
 			spartanGyro.setName("Gyro");
 			spartanGyro.setSubsystem("Drive Train");
-	        LiveWindow.add(spartanGyro);
-	        if(spartanGyro == null)
-	        	SmartDashboard.putBoolean("Gyro Detected", false);
-	        else
-	        	SmartDashboard.putBoolean("Gyro Detected", true);
+			LiveWindow.add(spartanGyro);
+			if(spartanGyro == null)
+				SmartDashboard.putBoolean("Gyro Detected", false);
+			else
+				SmartDashboard.putBoolean("Gyro Detected", true);
 		} catch (Exception e) {
 			DriverStation.reportError("4201 Error: Spartan Gyro not detected!", false);
 			SmartDashboard.putBoolean("Gyro Detected", false);
 		}
 		
-        robotDrive.setName("Robot Drive");
+		robotDrive.setName("Robot Drive");
 		robotDrive.setSubsystem("Drive Train");
-        LiveWindow.add(robotDrive);
+		LiveWindow.add(robotDrive);
 
-        driveTrainShifters.setName("Shifters");
-        driveTrainShifters.setSubsystem("Drive Train");
-        LiveWindow.add(driveTrainShifters);
+		driveTrainShifters.setName("Shifters");
+		driveTrainShifters.setSubsystem("Drive Train");
+		LiveWindow.add(driveTrainShifters);
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
 	
@@ -105,8 +105,8 @@ public class DriveTrain extends Subsystem {
 
 	public void resetSensors() {
 		driveMotors[0].setSelectedSensorPosition(0, 0, 0);
-        driveMotors[2].setSelectedSensorPosition(0, 0, 0);
-        
+		driveMotors[2].setSelectedSensorPosition(0, 0, 0);
+		
 		try {
 			spartanGyro.reset();
 		} catch(Exception e) {
@@ -131,16 +131,16 @@ public class DriveTrain extends Subsystem {
 		if(rightPWM > 1.0) {
 			leftPWM -= rightPWM - 1.0;
 			rightPWM = 1.0;
-        } else if(rightPWM < -1.0) {
-        	leftPWM -= rightPWM + 1.0;
-        	rightPWM = -1.0;
-        } else if(leftPWM > 1.0) {
-        	rightPWM -= leftPWM - 1.0;
-        	leftPWM = 1.0;
-        } else if(leftPWM < -1.0) {
-        	rightPWM -= leftPWM + 1.0;
-        	leftPWM = -1.0;
-        }
+		} else if(rightPWM < -1.0) {
+			leftPWM -= rightPWM + 1.0;
+			rightPWM = -1.0;
+		} else if(leftPWM > 1.0) {
+			rightPWM -= leftPWM - 1.0;
+			leftPWM = 1.0;
+		} else if(leftPWM < -1.0) {
+			rightPWM -= leftPWM + 1.0;
+			leftPWM = -1.0;
+		}
 
 		setDirectDriveOutput(leftPWM, rightPWM);
 	}
@@ -152,16 +152,16 @@ public class DriveTrain extends Subsystem {
 		if(rightPWM > 1.0){
 			leftPWM -= (rightPWM - 1.0);
 			rightPWM = 1.0;
-        } else if(rightPWM < -1.0){
-        	leftPWM += (-rightPWM - 1.0);
-        	rightPWM = -1.0;
-        } else if(leftPWM > 1.0){
-        	rightPWM -= (leftPWM - 1.0);
-        	leftPWM = 1.0;
-        } else if(leftPWM < -1.0){
-        	rightPWM += (-leftPWM - 1.0);
-        	leftPWM = -1.0;
-        }
+		} else if(rightPWM < -1.0){
+			leftPWM += (-rightPWM - 1.0);
+			rightPWM = -1.0;
+		} else if(leftPWM > 1.0){
+			rightPWM -= (leftPWM - 1.0);
+			leftPWM = 1.0;
+		} else if(leftPWM < -1.0){
+			rightPWM += (-leftPWM - 1.0);
+			leftPWM = -1.0;
+		}
 		
 		robotDrive.tankDrive(leftPWM, rightPWM);
 	}

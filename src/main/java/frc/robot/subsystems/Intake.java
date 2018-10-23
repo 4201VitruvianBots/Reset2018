@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 	public Intake(){
-        super("Intake");
+		super("Intake");
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
 

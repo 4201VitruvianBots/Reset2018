@@ -16,16 +16,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
  * accept an additional argument to specify where to place each piece of data.
  */
 public class Shuffleboard {
-    private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("");
+	private static final NetworkTable table = NetworkTableInstance.getDefault().getTable("");
 	
 	/**
 	   * Returns the boolean the key maps to. If the key does not exist or is of
-	   *     different type, it will return the default value.
+	   *	 different type, it will return the default value.
 	   * @param tabName the Shuffleboard tab the key is under
 	   * @param key the key to look up
 	   * @param defaultValue the value to be returned if no value is found
 	   * @return the value associated with the given key or the given default value
-	   *     if there is no value associated with the key
+	   *	 if there is no value associated with the key
 	   */
 	public static boolean getBoolean(String tabName, String key, boolean defaultValue) {
 		return table.getSubTable(tabName).getEntry(key).getBoolean(defaultValue);
@@ -40,21 +40,21 @@ public class Shuffleboard {
 	public static synchronized Sendable getData(String tabName, String key) {
 		String tableKey = tabName + "-" + key;
 		Data data = tablesToData.get(tableKey);
-	    if (data == null) {
-	      throw new IllegalArgumentException("Shuffleboard data does not exist: " + tableKey);
-	    } else {
-	      return data.m_sendable;
-	    }
+		if (data == null) {
+		  throw new IllegalArgumentException("Shuffleboard data does not exist: " + tableKey);
+		} else {
+		  return data.m_sendable;
+		}
 	}
 	  
 	/**
 	 * Returns the number the key maps to. If the key does not exist or is of
-	 *     different type, it will return the default value.
+	 *	 different type, it will return the default value.
 	 * @param tabName the Shuffleboard tab the key is under
 	 * @param key the key to look up
 	 * @param defaultValue the value to be returned if no value is found
 	 * @return the value associated with the given key or the given default value
-	 *     if there is no value associated with the key
+	 *	 if there is no value associated with the key
 	 */
 	public static double getNumber(String tabName, String key, double defaultValue) {
 		return table.getSubTable(tabName).getEntry(key).getDouble(defaultValue);
@@ -62,12 +62,12 @@ public class Shuffleboard {
 	
 	/**
 	 * Returns the number array the key maps to. If the key does not exist or is
-	 *     of different type, it will return the default value.
+	 *	 of different type, it will return the default value.
 	 * @param tabName the Shuffleboard tab the key is under
 	 * @param key the key to look up
 	 * @param defaultValue the value to be returned if no value is found
 	 * @return the value associated with the given key or the given default value
-	 *     if there is no value associated with the key
+	 *	 if there is no value associated with the key
    	 */
 	public static double[] getNumberArray(String tabName, String key, double[] defaultValue) {
 		return table.getSubTable(tabName).getEntry(key).getDoubleArray(defaultValue);
@@ -75,12 +75,12 @@ public class Shuffleboard {
 	
 	/**
 	   * Returns the string the key maps to. If the key does not exist or is of
-	   *     different type, it will return the default value.
+	   *	 different type, it will return the default value.
 	   * @param tabName the Shuffleboard tab the key is under
 	   * @param key the key to look up
 	   * @param defaultValue the value to be returned if no value is found
 	   * @return the value associated with the given key or the given default value
-	   *     if there is no value associated with the key
+	   *	 if there is no value associated with the key
 	   */
 	public static String getString(String tabName, String key, String defaultValue) {
 		return table.getSubTable(tabName).getEntry(key).getString(defaultValue);
@@ -120,7 +120,7 @@ public class Shuffleboard {
 			data.initSendable(sddata.m_builder);
 			sddata.m_builder.updateTable();
 			sddata.m_builder.startListeners();
-	      	dataTable.getSubTable(tabName).getEntry(".name").setString(key);
+		  	dataTable.getSubTable(tabName).getEntry(".name").setString(key);
 		}
 	}
 
@@ -150,12 +150,12 @@ public class Shuffleboard {
 	
 	/**
 	 * Returns the number array the key maps to. If the key does not exist or is
-	 *     of different type, it will return the default value.
+	 *	 of different type, it will return the default value.
 	 * @param tabName the Shuffleboard tab the key is under
 	 * @param key the key to look up
 	 * @param defaultValue the value to be returned if no value is found
 	 * @return the value associated with the given key or the given default value
-	 *     if there is no value associated with the key
+	 *	 if there is no value associated with the key
 	 */
 	public static boolean putNumberArray(String tabName, String key, double value[]){
 		return table.getSubTable(tabName).getEntry(key).setDoubleArray(value);
@@ -175,10 +175,10 @@ public class Shuffleboard {
 	private static class Data {
 		Data(Sendable sendable) {
 			m_sendable = sendable;
-	    }
+		}
 
-	    final Sendable m_sendable;
-	    final SendableBuilderImpl m_builder = new SendableBuilderImpl();
+		final Sendable m_sendable;
+		final SendableBuilderImpl m_builder = new SendableBuilderImpl();
 	}
 
 	private static final Map<String, Data> tablesToData = new HashMap<>();

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Wrist extends Subsystem {
 	public Wrist(){
-        super("Wrist");
+		super("Wrist");
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
 
@@ -22,7 +22,7 @@ public class Wrist extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
+		// Set the default command for a subsystem here.
 
 	}
 }

@@ -2,10 +2,9 @@
 package frc.robot.subsystems;
 
 
-import frc.robot.*;
-import frc.robot.commands.*;
+import frc.robot.RobotMap;
 import frc.robot.commands.DriveTrain.*;
-import frc.vitruvianlib.Shuffleboard;
+import frc.vitruvianlib.driverstation.Shuffleboard;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

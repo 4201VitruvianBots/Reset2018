@@ -8,7 +8,7 @@
 package frc.robot;
 
 import frc.robot.commands.*;
-import frc.vitruvianlib.*;
+import frc.vitruvianlib.driverstation.XBoxTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;

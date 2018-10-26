@@ -17,8 +17,8 @@ public class Elevator extends Subsystem {
 	private TalonSRX m_elevatorMaster, m_elevatorSlave1, m_elevatorSlave2;
 	private DigitalInput m_zeroHardStop, m_maxHardStop;
 
-	private double m_slewRateLimit;
-	private double m_accelerationLimit;
+	private double m_slewRateLimit = Constants.elevatorSlewRateLimit;
+	private double m_accelerationLimit = Constants.elevatorAccelerationLimit;
 
 	public Elevator(){
 		super("Elevator");
@@ -29,9 +29,6 @@ public class Elevator extends Subsystem {
 
 		m_zeroHardStop = new DigitalInput(RobotMap.elevatorZero);
 		m_maxHardStop = new DigitalInput(RobotMap.elevatorMax);
-
-		m_slewRateLimit = Constants.elevatorSlewRateLimit;
-		m_accelerationLimit = Constants.elevatorAccelerationLimit;
 	}
 
 	public double getPosition() {
@@ -60,6 +57,14 @@ public class Elevator extends Subsystem {
 	}
 
 	// Put methods for controlling the subsystem here. Call these from Commands.
+	public boolean getLowerLimitSensor() {
+		return false;
+	}
+
+	public boolean getUpperLimitSensor() {
+		return false;
+	}
+
 	/**
 	 * Drive the elevator with a constant voltage. Call this every cycle
 	 * @param voltage Volts to send to each motor

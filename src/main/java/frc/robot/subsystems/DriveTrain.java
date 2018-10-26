@@ -49,10 +49,6 @@ public class DriveTrain extends Subsystem {
 		return 0;
 	}
 
-	public void resetSensors() {
-		
-	}
-
 	public void setOpenLoopDriveCommand(DriveCommand dc) {
 		m_leftMaster.set(ControlMode.PercentOutput, dc.leftVoltage / 12.0);
 		m_rightMaster.set(ControlMode.PercentOutput, dc.rightVoltage / 12.0);
@@ -76,6 +72,10 @@ public class DriveTrain extends Subsystem {
 	
 	public boolean getHighGear(){
 		return m_driveTrainShifters.get() == Value.kForward ? true : false;
+	}
+
+	public void resetSensors() {
+		
 	}
 	
 	public void updateSmartDashboard(){

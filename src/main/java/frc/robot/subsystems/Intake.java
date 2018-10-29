@@ -12,6 +12,17 @@ public class Intake extends Subsystem {
 		super("Intake");
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
+	public void driveRollers(double voltage) {
+
+	}
+
+	public boolean getClamped() {
+		return false;
+	}
+
+	public void setClamp(boolean clamped) {
+		
+	}
 
 	public void resetSensors() {
 

@@ -1,0 +1,20 @@
+Our code uses extensive use of a USB storage device attached to the roboRIO to read/write files.
+We use read/writes to files extensively both for logging and for storing configurations for the
+robot. By storing configurations on the robot and having the robot read those values whenever it
+initializes (In robotInit, autonomousInit, and teleopInit), we are able to reduce the amount of
+code redeploys and roboRIO reboots when developing code. This has proven to be extremely useful at
+events where time on the practice field is precious. By doing so, we can maximize the amount of
+trials we run on our autonomous modes, which lets us tune them faster and allows us to develop
+more autonomous modes at competitions.
+
+Our file structure on the USB is as follows
+
+4201Robot/
+|-> Pathfinder/
+|-> Configs/
+|-> Logs/
+
+Pathfinder: Contains .csv files generated from pathfinder for our autonomous modes.
+Configs: Contains .ini files that store default configuration values for the robot.
+Logs: Contains .csv log files that record values on the robot as it runs. Logs are organized into
+    subfolders for easy navigation to specific files/times.

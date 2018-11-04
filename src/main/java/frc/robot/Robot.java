@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.*;
+import frc.vitruvianlib.VitruvianLogger.*;
+
+import java.util.logging.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,7 +25,8 @@ import frc.robot.subsystems.*;
  * project.
  */
 public class Robot extends TimedRobot {
-	public static DriveTrain driveTrain = new DriveTrain();
+	public static DriveTrain driveTrain; //= new DriveTrain();
+	public static Controls controls = new Controls();
 	public static OI oi;
 
 	Command m_autonomousCommand;
@@ -50,7 +54,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotPeriodic() {
-		driveTrain.updateSmartDashboard();
+		//driveTrain.updateSmartDashboard();
 	}
 
 	/**
@@ -60,6 +64,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		VitruvianLogger.getInstance().startLogger();
 	}
 
 	@Override
@@ -93,6 +98,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.start();
 		}
+
+		VitruvianLogger.getInstance().startLogger();
 	}
 
 	/**
@@ -112,6 +119,8 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+
+		VitruvianLogger.getInstance().startLogger();
 	}
 
 	/**

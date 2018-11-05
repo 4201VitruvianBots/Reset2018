@@ -2,6 +2,7 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,21 +15,57 @@ import frc.vitruvianlib.drivers.FactoryTalonSRX;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class Elevator extends Subsystem {
-	private TalonSRX m_elevatorMaster, m_elevatorSlave1, m_elevatorSlave2;
+	private TalonSRX m_elevatorMaster, m_elevatorSlave1, m_elevatorSlave2, m_elevatorSlave3;
 	private DigitalInput m_zeroHardStop, m_maxHardStop;
 
 	private double m_slewRateLimit = Constants.elevatorSlewRateLimit;
 	private double m_accelerationLimit = Constants.elevatorAccelerationLimit;
 
+
+
+
 	public Elevator(){
 		super("Elevator");
-		
-		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster);
+
+		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster1);
 		m_elevatorSlave1 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave1);
 		m_elevatorSlave2 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave2);
+		m_elevatorSlave3 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster2);
+
+		/*
+		sets all motors to brake and sets max and min outputs.
+		Not needed with new methods
+
+		for (int i = 0; i < elevatorMotors.length; i++){
+			elevatorMotors[i].setNeutralMode(NeutralMode.Brake);
+			elevatorMotors[i].configPeakOutputForward(1, 0);
+			elevatorMotors[i].configPeakOutputReverse(-1, 0);
+			elevatorMotors[i].setInverted(false);
+			//elevatorMotors[i].setSafetyEnabled(true);
+			/*elevatorMotors[i].configContinuousCurrentLimit(30, 0);
+			elevatorMotors[i].configPeakCurrentLimit(80, 0);
+			elevatorMotors[i].configPeakCurrentDuration(100, 0);
+		}*/
+
+		/*
+		Set slaves to master.
+		 */
+		m_elevatorSlave1.set(ControlMode.Follower, m_elevatorMaster.getDeviceID());
+        m_elevatorSlave2.set(ControlMode.Follower, m_elevatorMaster.getDeviceID());
+        m_elevatorSlave3.set(ControlMode.Follower, m_elevatorMaster.getDeviceID());
+
+		/*
+		These motors are facing the opposite directions and are inverted to prevent
+		the motors from fighting each other.
+		 */
+        m_elevatorMaster.setInverted(false);
+        m_elevatorSlave1.setInverted(false);
+        m_elevatorSlave2.setInverted(true);
+        m_elevatorSlave3.setInverted(true);
 
 		m_zeroHardStop = new DigitalInput(RobotMap.elevatorZero);
 		m_maxHardStop = new DigitalInput(RobotMap.elevatorMax);
+
 	}
 
 	public double getPosition() {
@@ -70,7 +107,7 @@ public class Elevator extends Subsystem {
 	 * @param voltage Volts to send to each motor
 	 */
 	public void driveOpenLoop(double voltage) {
-		
+		m_elevatorMaster.set(ControlMode.PercentOutput, voltage/12);
 	}
 
 	/**

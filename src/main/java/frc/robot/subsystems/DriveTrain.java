@@ -16,7 +16,7 @@ import frc.vitruvianlib.drivers.FactoryTalonSRX;
  * An example subsystem.  You can replace me with your own Subsystem.
  */
 public class DriveTrain extends Subsystem {
-	public class DriveCommand {
+	public static class DriveCommand {
 		public double leftVoltage, rightVoltage;
 
 		public DriveCommand(double leftVoltage, double rightVoltage) {
@@ -54,12 +54,20 @@ public class DriveTrain extends Subsystem {
 		m_rightMaster.set(ControlMode.PercentOutput, dc.rightVoltage / 12.0);
 	}
 
-	public DriveCommand driveTank(double left, double right) {
+	public static DriveCommand tankCommand(double left, double right) {
 		return null;
 	}
 
-	public DriveCommand driveArcade(double forward, double turn) {
+	public static DriveCommand arcadeCommand(double forward, double turn) {
 		return null;
+	}
+
+	public void driveTank(double left, double right) {
+		this.setOpenLoopDriveCommand(DriveTrain.tankCommand(left, right));
+	}
+
+	public void driveArcade(double forward, double turn) {
+		this.setOpenLoopDriveCommand(DriveTrain.arcadeCommand(forward, turn));
 	}
 	
 	public void setDriveShiftHigh(){

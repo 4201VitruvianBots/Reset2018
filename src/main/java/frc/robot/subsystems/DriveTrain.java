@@ -55,11 +55,17 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public static DriveCommand tankCommand(double left, double right) {
-		return null;
+		return new DriveCommand(left*12, right*-12);
 	}
 
 	public static DriveCommand arcadeCommand(double forward, double turn) {
-		return null;
+		double left = forward + turn;
+		double right = forward - turn;
+		if(left > 1) { left = 1; }
+		else if(left < -1) { left = -1; }
+		else if(right > 1) { right = 1; }
+		else if(right < -1) { right = -1; }
+		return new DriveCommand(left*12, right*-12);
 	}
 
 	public void driveTank(double left, double right) {

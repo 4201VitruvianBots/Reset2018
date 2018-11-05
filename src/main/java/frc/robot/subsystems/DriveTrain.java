@@ -40,13 +40,13 @@ public class DriveTrain extends Subsystem {
 		LiveWindow.add(m_driveTrainShifters);
 	}
 	// Put methods for controlling the subsystem here. Call these from Commands.
-	
+
 	public int getLeftEncoderValue() {
-		return 0;
+		return m_leftMaster.getSelectedSensorPosition(0);
 	}
-	
+
 	public int getRightEncoderValue() {
-		return 0;
+		return m_rightMaster.getSelectedSensorPosition(0);
 	}
 
 	public void setOpenLoopDriveCommand(DriveCommand dc) {

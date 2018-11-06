@@ -67,9 +67,9 @@ public class RobotMap {
 	public static final int driveTrainRightSlave = 0;
 
 	public static final int elevatorMaster1 = 0;
-	public static final int elevatorMaster2 = 0;
 	public static final int elevatorSlave1 = 0;
 	public static final int elevatorSlave2 = 0;
+	public static final int elevatorSlave3 = 0;
 
 	public static final int wrist = 0;
 	

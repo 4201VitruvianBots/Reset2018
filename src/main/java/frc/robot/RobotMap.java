@@ -61,10 +61,10 @@ public class RobotMap {
 	public static final int driveTrainShifterReverse = 0;
 
 	// Motor Controllers
-	public static final int driveTrainLeftMaster = 0;
-	public static final int driveTrainLeftSlave = 0;
-	public static final int driveTrainRightMaster = 0;
-	public static final int driveTrainRightSlave = 0;
+	public static final int driveTrainLeftMaster = 20;
+	public static final int driveTrainLeftSlave = 21;
+	public static final int driveTrainRightMaster = 22;
+	public static final int driveTrainRightSlave = 23;
 
 	public static final int elevatorMaster = 0;
 	public static final int elevatorSlave1 = 0;

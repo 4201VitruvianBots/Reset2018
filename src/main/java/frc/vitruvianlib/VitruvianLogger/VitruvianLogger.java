@@ -7,7 +7,6 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class VitruvianLogger {
@@ -20,7 +19,7 @@ public class VitruvianLogger {
     List<VitruvianLog> logList = new ArrayList<>();
     public static double m_logStartTime;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
     private VitruvianLogger(){
 
@@ -65,7 +64,7 @@ public class VitruvianLogger {
 
             // Use timestamp for log location
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            logPath += sdf.format(timestamp) + "/";
+            logPath += dateFormat.format(timestamp) + "/";
         } else {
             isMatch = true;
             logPath += eventString + "/";
@@ -93,16 +92,34 @@ public class VitruvianLogger {
                     "Will start overwriting logs");
 
         // Make new Logger directories
+        boolean startLogger = true;
         try {
             folderPath.mkdirs();
         } catch(Exception e) {
-            System.out.println("VitruvianLogger Error: Could not make log dirs");
+            System.out.println("VitruvianLogger Error: Could not make log dirs. " +
+                    "Defaulting to known path");
             e.printStackTrace();
+
+            counter = 1;
+            logPath = "/media/sda1/4201Robot/Logs/UnsortedLogs/"
+            while (folderPath.exists() && folderPath.isDirectory() && counter < 99) {
+                String newPath = logPath + "_" + String.format("%02d", counter++);
+                folderPath = new File(newPath);
+            }
+            try {
+                folderPath.mkdirs();
+            } catch(Exception e) {
+                System.out.println("VitruvianLogger Error: Could not default to backup folder. " +
+                        "Logger will not start");
+                e.printStackTrace();
+                startLogger = false;
+            }
         }
 
         // Start all loggers
-        for(VitruvianLog log:logList)
-            log.startLogging(logPath);
+        if(startLogger)
+            for(VitruvianLog log:logList)
+                log.startLogging(logPath);
 
         isRunning = true;
     }

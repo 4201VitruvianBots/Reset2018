@@ -34,9 +34,8 @@ public class VitruvianLog implements Runnable {
         logFields.remove(fieldName);
     }
 
-    public double getTimestamp() {
-        // TODO: Format this?
-        return Timer.getFPGATimestamp() - VitruvianLogger.m_logStartTime;
+    public String getTimestamp() {
+        return String.format("%.2f",Timer.getFPGATimestamp() - VitruvianLogger.m_logStartTime);
     }
 
     public void startLogging(String logPath){

@@ -30,7 +30,7 @@ public class Elevator extends Subsystem {
 		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster1);
 		m_elevatorSlave1 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave1);
 		m_elevatorSlave2 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave2);
-		m_elevatorSlave3 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster2);
+		m_elevatorSlave3 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave3);
 
 		/*
 		sets all motors to brake and sets max and min outputs.
@@ -69,7 +69,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public double getPosition() {
-		return 0;
+		return m_elevatorMaster.getSelectedSensorPosition(0);
 	}
 
 	public double getVelocity() {

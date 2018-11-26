@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 /**
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 
+	Command m_teleOpCommand;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -105,12 +107,18 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
+		m_teleOpCommand = new SetArcadeDrive();
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
+		}
+		if (m_teleOpCommand != null) {
+			m_teleOpCommand.start();
+			Robot.driveTrain.setDefaultCommand(m_teleOpCommand);
 		}
 	}
 

@@ -3,8 +3,9 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -25,13 +26,19 @@ public class DriveTrain extends Subsystem {
 		}
 	}
 
-	TalonSRX m_leftMaster, m_leftSlave;
-	TalonSRX m_rightMaster, m_rightSlave;
+	public WPI_TalonSRX m_leftMaster = new WPI_TalonSRX(RobotMap.driveTrainLeftMaster);
+	public WPI_TalonSRX m_leftSlave = new WPI_TalonSRX(RobotMap.driveTrainLeftSlave);
+	public WPI_TalonSRX m_rightMaster = new WPI_TalonSRX(RobotMap.driveTrainRightMaster);
+	public WPI_TalonSRX m_rightSlave = new WPI_TalonSRX(RobotMap.driveTrainRightSlave);
 	DoubleSolenoid m_driveTrainShifters;
 	
+	DifferentialDrive robotDrive = new DifferentialDrive(m_leftMaster, m_rightMaster);
+
 	public DriveTrain(){
 		super("Drive Train");
-		m_leftMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.driveTrainLeftMaster);
+
+		m_leftSlave.set(ControlMode.Follower, m_leftMaster.getDeviceID());
+		m_rightSlave.set(ControlMode.Follower, m_rightMaster.getDeviceID());
 
 		m_driveTrainShifters = new DoubleSolenoid(RobotMap.PCMOne, 
 			RobotMap.driveTrainShifterForward, RobotMap.driveTrainShifterReverse);
@@ -50,22 +57,21 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void setOpenLoopDriveCommand(DriveCommand dc) {
-		m_leftMaster.set(ControlMode.PercentOutput, dc.leftVoltage / 12.0);
-		m_rightMaster.set(ControlMode.PercentOutput, dc.rightVoltage / 12.0);
+		robotDrive.tankDrive(dc.leftVoltage / 12.0, dc.rightVoltage / 12.0);
 	}
 
 	public static DriveCommand tankCommand(double left, double right) {
 		return new DriveCommand(left*12, right*-12);
 	}
 
-	public static DriveCommand arcadeCommand(double forward, double turn) {
+	public static DriveCommand arcadeCommand(double turn, double forward) {
 		double left = forward + turn;
 		double right = forward - turn;
 		if(left > 1) { left = 1; }
 		else if(left < -1) { left = -1; }
 		else if(right > 1) { right = 1; }
 		else if(right < -1) { right = -1; }
-		return new DriveCommand(left*12, right*-12);
+		return new DriveCommand(left*-12, right*12);
 	}
 
 	public void driveTank(double left, double right) {

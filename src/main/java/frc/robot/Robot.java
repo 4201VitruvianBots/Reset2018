@@ -26,7 +26,7 @@ public class Robot extends TimedRobot {
 	public static DriveTrain driveTrain = new DriveTrain();
 	public static OI oi;
 
-	Command teleOpDrive;
+	Command m_teleOpCommand;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -107,13 +107,18 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		teleOpDrive = new SetTankDrive();
+		m_teleOpCommand = new SetArcadeDrive();
+
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
+		}
+		if (m_teleOpCommand != null) {
+			m_teleOpCommand.start();
+			Robot.driveTrain.setDefaultCommand(m_teleOpCommand);
 		}
 	}
 

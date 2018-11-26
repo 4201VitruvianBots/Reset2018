@@ -61,19 +61,19 @@ public class RobotMap {
 	public static final int driveTrainShifterReverse = 0;
 
 	// Motor Controllers
-	public static final int driveTrainLeftMaster = 0;
-	public static final int driveTrainLeftSlave = 0;
-	public static final int driveTrainRightMaster = 0;
-	public static final int driveTrainRightSlave = 0;
+	public static final int driveTrainLeftMaster = 20;
+	public static final int driveTrainLeftSlave = 21;
+	public static final int driveTrainRightMaster = 22;
+	public static final int driveTrainRightSlave = 23;
 
-	public static final int elevatorMaster1 = 0;
-	public static final int elevatorSlave1 = 0;
-	public static final int elevatorSlave2 = 0;
-	public static final int elevatorSlave3 = 0;
+	public static final int elevatorMaster1 = 24;
+	public static final int elevatorSlave1 = 25;
+	public static final int elevatorSlave2 = 26;
+	public static final int elevatorSlave3 = 27;
 
-	public static final int wrist = 0;
+	public static final int wrist = 28;
 	
-	public static final int intake = 0;
+	public static final int intake = 29;
 
 	public void getIniValues() {
 

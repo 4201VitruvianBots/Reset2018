@@ -1,5 +1,10 @@
 # Created by https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
 
+# IDE files
+.idea/
+out/
+*.swp
+
 ### C++ ###
 # Prerequisites
 *.d

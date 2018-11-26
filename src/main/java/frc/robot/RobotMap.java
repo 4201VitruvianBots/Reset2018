@@ -46,8 +46,8 @@ public class RobotMap {
 
 	// RoboRIO DIO Ports
 	public static final int elevatorZero = 0;
-	public static final int elevatorMax = 0;
-	public static final int intakeCubeSensor = 0;
+	public static final int elevatorMax = 1;
+	public static final int intakeCubeSensor = 2;
 
 	// RoboRIO Analog Ports
 
@@ -58,7 +58,7 @@ public class RobotMap {
 	// Pneumatic Modules & their devices
 	public static final int PCMOne = 11;
 	public static final int driveTrainShifterForward = 0;
-	public static final int driveTrainShifterReverse = 0;
+	public static final int driveTrainShifterReverse = 1;
 
 	// Motor Controllers
 	public static final int driveTrainLeftMaster = 20;
@@ -66,14 +66,13 @@ public class RobotMap {
 	public static final int driveTrainRightMaster = 22;
 	public static final int driveTrainRightSlave = 23;
 
-	public static final int elevatorMaster1 = 24;
+	public static final int elevatorMaster = 24;
 	public static final int elevatorSlave1 = 25;
 	public static final int elevatorSlave2 = 26;
-	public static final int elevatorSlave3 = 27;
 
-	public static final int wrist = 28;
+	public static final int wrist = 27;
 	
-	public static final int intake = 29;
+	public static final int intake = 28;
 
 	public void getIniValues() {
 

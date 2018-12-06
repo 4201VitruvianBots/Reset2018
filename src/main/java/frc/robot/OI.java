@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.ElevatorDirectDrive;
 import frc.vitruvianlib.driverstation.XBoxTrigger;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -59,7 +60,10 @@ public class OI {
 		rightJoystick = new Joystick(RobotMap.rightJoystick);
 		xBoxController = new Joystick(RobotMap.xBoxController);
 
-		initializeButtons();	
+		initializeButtons();
+
+		rightButtons[4].whileHeld(new ElevatorDirectDrive(12));
+		rightButtons[2].whileHeld(new ElevatorDirectDrive(-12));
 	}
 
 	/**
@@ -86,19 +90,19 @@ public class OI {
 	}
 	
 	public double getLeftY(){
-		return -leftJoystick.getY();
+		//return -leftJoystick.getY();
 	}
 
 	public double getLeftX(){
-		return leftJoystick.getX();
+		//return leftJoystick.getX();
 	}
 
  	public double getRightY(){
-		return rightJoystick.getY();
+		//return rightJoystick.getY();
 	}
 
 	public double getRightX(){
-		return rightJoystick.getX();
+		//return rightJoystick.getX();
 	}
 
 	public void enableXBoxLeftRumble() {

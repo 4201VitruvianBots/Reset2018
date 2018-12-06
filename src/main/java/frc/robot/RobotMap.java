@@ -69,10 +69,11 @@ public class RobotMap {
 	public static final int elevatorMaster = 24;
 	public static final int elevatorSlave1 = 25;
 	public static final int elevatorSlave2 = 26;
+	public static final int elevatorSlave3 = 27;
 
-	public static final int wrist = 27;
+	public static final int wrist = 28;
 	
-	public static final int intake = 28;
+	public static final int intake = 29;
 
 	public void getIniValues() {
 

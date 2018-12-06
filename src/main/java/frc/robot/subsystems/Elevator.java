@@ -5,6 +5,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Constants;
@@ -27,7 +28,7 @@ public class Elevator extends Subsystem {
 	public Elevator(){
 		super("Elevator");
 
-		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster1);
+		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster);
 		m_elevatorSlave1 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave1);
 		m_elevatorSlave2 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave2);
 		m_elevatorSlave3 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave3);

@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.vitruvianlib.drivers.FactoryTalonSRX;
@@ -17,6 +18,17 @@ import frc.vitruvianlib.drivers.FactoryTalonSRX;
 public class Elevator extends Subsystem {
 	private TalonSRX m_elevatorMaster, m_elevatorSlave1, m_elevatorSlave2, m_elevatorSlave3;
 	private DigitalInput m_zeroHardStop, m_maxHardStop;
+	private Timer elevatorTimer;
+	private double elevatorPreviousTime;
+	private double elevatorPreviousError;
+	private double kP = 0;
+	private double kD = 0;
+	private double kS = 0;
+	private double kV = 0;
+	private double kA = 0;
+	private double maxVelocity = 5;
+	private double maxAcceleration = 5;
+
 
 	private double m_slewRateLimit = Constants.elevatorSlewRateLimit;
 	private double m_accelerationLimit = Constants.elevatorAccelerationLimit;
@@ -27,7 +39,7 @@ public class Elevator extends Subsystem {
 	public Elevator(){
 		super("Elevator");
 
-		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster1);
+		m_elevatorMaster = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorMaster);
 		m_elevatorSlave1 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave1);
 		m_elevatorSlave2 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave2);
 		m_elevatorSlave3 = FactoryTalonSRX.createDefaultTalon(RobotMap.elevatorSlave3);
@@ -73,7 +85,7 @@ public class Elevator extends Subsystem {
 	}
 
 	public double getVelocity() {
-		return 0;
+		return m_elevatorMaster.getSelectedSensorVelocity(0);
 	}
 
 
@@ -110,20 +122,41 @@ public class Elevator extends Subsystem {
 		m_elevatorMaster.set(ControlMode.PercentOutput, voltage/12);
 	}
 
-	/**
+	/*
 	 * Send a step command to the position PID loop
 	 * @param position Height of the elevator from the base, in meters
 	 */
-	public void setClosedLoopPositionStep(double position) {
-		
+	//PID(feedback loop)
+	private double setClosedLoopPositionStep(double setPoint) {
+		double velocity = (setPoint-elevatorPreviousError)/(elevatorPreviousTime -elevatorTimer.getFPGATimestamp());
+		double voltage = 0;
+		double error = setPoint-getPosition();
+		voltage = kP*error+kD*(error-elevatorPreviousError)/((elevatorPreviousTime -elevatorTimer.getFPGATimestamp())- velocity);
+		elevatorPreviousError = error;
+		elevatorPreviousTime = elevatorTimer.getFPGATimestamp();
+		return voltage;
+	}
+	//feed forward loop
+	private double setClosedLoopFeedForward(double setPoint) {
+		double voltage = 0;
+		double error = setPoint-getPosition();
+		double velocity = m_elevatorMaster.getSelectedSensorVelocity(0);
+		if (velocity <= maxVelocity && error >= velocity*velocity/(2*(maxAcceleration))) {
+			voltage = kS + kV * velocity + kA * maxAcceleration;
+		} else if (error <= velocity*velocity/(2*(maxAcceleration))) {
+			voltage = kS + kV * velocity + kA * -maxAcceleration;
+		} else {
+			voltage = kS + kV * velocity
+		}
+		return voltage;
 	}
 
 	/**
 	 * Set a step velocity command to the velocity PID loop
 	 * @param velocity Speed to move the elevator upwards, in meters/second
 	 */
-	public void setClosedLoopVelocity(double velocity) {
-		
+	public void setClosedLoop(double setPoint) {
+		driveOpenLoop(setClosedLoopFeedForward(setPoint) + setClosedLoopPositionStep(setPoint));
 	}
 
 	/**
